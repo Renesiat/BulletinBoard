@@ -1,0 +1,62 @@
+﻿@model BulletinBoard.Web.Models.AnnouncementFormViewModel
+
+@{
+    ViewData["Title"] = "Edit Announcement";
+}
+
+<h2>Edit Announcement</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Announcement.Id" />
+    <input type="hidden" asp-for="SelectedCategory" />
+
+    <div class="form-group">
+        <label>Category</label>
+        <select class="form-control mb-2"
+                onchange="location.href='@Url.Action("Edit", "Announcements", new { id = Model.Announcement.Id })?category=' + this.value;">
+            <option value="">-- Select a category --</option>
+            @foreach (var cat in Model.Categories)
+            {
+                <option value="@cat" selected="@(cat == Model.SelectedCategory ? "selected" : null)">
+                    @cat
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label>Subcategory</label>
+        <select asp-for="Announcement.SubCategory" class="form-control mb-2">
+            <option value="">-- Select a subcategory --</option>
+            @foreach (var sub in Model.SubCategories)
+            {
+                <option value="@sub" selected="@(sub == Model.Announcement.SubCategory ? "selected" : null)">
+                    @sub
+                </option>
+            }
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Announcement.Title"></label>
+        <input asp-for="Announcement.Title" class="form-control" />
+        <span asp-validation-for="Announcement.Title" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Announcement.Description"></label>
+        <textarea asp-for="Announcement.Description" class="form-control"></textarea>
+        <span asp-validation-for="Announcement.Description" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Announcement.Status"></label>
+        <select asp-for="Announcement.Status" class="form-control">
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+        </select>
+        <span asp-validation-for="Announcement.Status" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-success">Save</button>
+</form>

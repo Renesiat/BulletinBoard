@@ -1,4 +1,18 @@
+using BulletinBoard.Data;
+using BulletinBoard.Data.Interfaces;
+using BulletinBoard.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
+using System;
+
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        x => x.MigrationsAssembly("BulletinBoard.Data")
+    ));
+builder.Services.AddScoped<IAnnouncementRepository, AnnouncementRepository>();
 
 // Add services to the container.
 

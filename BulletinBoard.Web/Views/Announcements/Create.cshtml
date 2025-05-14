@@ -1,0 +1,47 @@
+﻿@model BulletinBoard.Web.Models.AnnouncementFormViewModel
+
+<form asp-action="Create" method="post">
+    @Html.AntiForgeryToken()
+
+    <div class="mb-3">
+        <label asp-for="Announcement.Title" class="form-label"></label>
+        <input asp-for="Announcement.Title" class="form-control" />
+        <span asp-validation-for="Announcement.Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Announcement.Description" class="form-label"></label>
+        <textarea asp-for="Announcement.Description" class="form-control" rows="4"></textarea>
+        <span asp-validation-for="Announcement.Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Announcement.Status" class="form-label"></label>
+        <select asp-for="Announcement.Status" class="form-select">
+            <option value="">-- Select Status --</option>
+            <option>Active</option>
+            <option>Inactive</option>
+        </select>
+        <span asp-validation-for="Announcement.Status" class="text-danger"></span>
+    </div>
+
+    <!-- Category -->
+    <div class="mb-3">
+        <label asp-for="SelectedCategory" class="form-label">Category</label>
+        <select asp-for="SelectedCategory" asp-items="@(new SelectList(Model.Categories))" id="SelectedCategory" class="form-control"></select>
+        <span asp-validation-for="SelectedCategory" class="text-danger"></span>
+    </div>
+
+    <!-- Subcategory -->
+    <div class="mb-3">
+        <label asp-for="Announcement.SubCategory" class="form-label">Subcategory</label>
+        <select asp-for="Announcement.SubCategory" asp-items="@(new SelectList(Model.SubCategories))" id="SubCategories" class="form-control"></select>
+        <span asp-validation-for="Announcement.SubCategory" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-sm btn-outline-primary me-1">Submit</button>
+    <a asp-action="Index" class="btn btn-sm me-1 dusty-rose-btn">Cancel</a>
+</form>
+
+}
+
