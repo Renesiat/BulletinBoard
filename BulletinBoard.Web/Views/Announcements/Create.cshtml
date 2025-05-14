@@ -1,5 +1,24 @@
 ﻿@model BulletinBoard.Web.Models.AnnouncementFormViewModel
+<style>
+    .dusty-rose-btn {
+        color: #d8a7b1;
+        border: 1px solid #d8a7b1;
+        background-color: transparent;
+        transition: all 0.2s ease-in-out;
+    }
 
+        .dusty-rose-btn:hover,
+        .dusty-rose-btn:focus {
+            background-color: #d8a7b1;
+            color: white;
+        }
+
+        .dusty-rose-btn:active {
+            background-color: #c4919c;
+            color: white;
+            border-color: #c4919c;
+        }
+</style>
 <form asp-action="Create" method="post">
     @Html.AntiForgeryToken()
 
@@ -42,6 +61,28 @@
     <button type="submit" class="btn btn-sm btn-outline-primary me-1">Submit</button>
     <a asp-action="Index" class="btn btn-sm me-1 dusty-rose-btn">Cancel</a>
 </form>
+@section Scripts {
+    <script>
+        document.getElementById('SelectedCategory').addEventListener('change', function () {
+            const selectedCategory = this.value;
+            const subCategorySelect = document.getElementById('SubCategories');
 
+            subCategorySelect.innerHTML = '';
+
+            if (selectedCategory) {
+                fetch(`/Announcements/GetSubcategories?category=${encodeURIComponent(selectedCategory)}`)
+                    .then(response => response.json())
+                    .then(data => {
+                        subCategorySelect.innerHTML = '<option value="">-- Select Subcategory --</option>';
+                        data.forEach(sub => {
+                            const option = document.createElement('option');
+                            option.value = sub;
+                            option.textContent = sub;
+                            subCategorySelect.appendChild(option);
+                        });
+                    });
+            }
+        });
+    </script>
 }
 
